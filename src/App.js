@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 
 function App() {
-  return <div className="App">HOLA</div>;
+  return <div className="grid_icon"></div>;
 }
 
 export default App;
