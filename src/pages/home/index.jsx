@@ -1,7 +1,12 @@
 import React from "react";
 
 const Home = () => {
-  return <div>Inicio</div>;
+  return (
+    <div>
+      hola
+      <i className="error_icon"></i>
+    </div>
+  );
 };
 
 export default Home;
