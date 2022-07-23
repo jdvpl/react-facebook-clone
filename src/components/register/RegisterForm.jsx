@@ -3,6 +3,7 @@ import { useState } from "react";
 import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
 import DateOfBirthSelect from "./DateOfBirthSelect";
+import GenderSelect from "./GenderSelect";
 const RegisterForm = () => {
   const userInfos = {
     first_name: "",
@@ -16,6 +17,7 @@ const RegisterForm = () => {
   };
   const [user, setuser] = useState(userInfos);
   const [dateError, setDateError] = useState("");
+  const [genderError, setGenderError] = useState("");
   const {
     first_name,
     last_name,
@@ -26,7 +28,7 @@ const RegisterForm = () => {
     bDay,
     gender,
   } = user;
-  const handleRegisterChane = (e) => {
+  const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setuser({ ...user, [name]: value });
   };
@@ -89,6 +91,29 @@ const RegisterForm = () => {
             gender,
           }}
           validationSchema={registerValidation}
+          onSubmit={() => {
+            let current_date = new Date();
+            let picked_date = new Date(bYear, bMonth - 1, bDay);
+            let atLeast14 = new Date(1970 + 14, 0, 1);
+            let noMorethan70 = new Date(1970 + 70, 0, 1);
+            if (current_date - picked_date < atLeast14) {
+              setDateError(
+                "it looks like you've entered the wrong info. Please make sure that you use real date of birth"
+              );
+            } else if (current_date - picked_date > noMorethan70) {
+              setDateError(
+                "it looks like you've entered the wrong info. Please make sure that you use real date of birth"
+              );
+            } else if (gender === "") {
+              setDateError("");
+              setGenderError(
+                "Please choose a gender. You can change who can see this later."
+              );
+            } else {
+              setDateError("");
+              setGenderError("");
+            }
+          }}
         >
           {(formik) => (
             <Form className="register_form">
@@ -97,13 +122,13 @@ const RegisterForm = () => {
                   type="text"
                   placeholder="First name"
                   name="first_name"
-                  onChange={handleRegisterChane}
+                  onChange={handleRegisterChange}
                 />
                 <RegisterInput
                   type="text"
                   placeholder="Surname"
                   name="last_name"
-                  onChange={handleRegisterChane}
+                  onChange={handleRegisterChange}
                 />
               </div>
               <div className="reg_line">
@@ -111,7 +136,7 @@ const RegisterForm = () => {
                   type="text"
                   placeholder="Mobile number or email address"
                   name="email"
-                  onChange={handleRegisterChane}
+                  onChange={handleRegisterChange}
                 />
               </div>
               <div className="reg_line">
@@ -119,7 +144,7 @@ const RegisterForm = () => {
                   type="password"
                   placeholder="New password"
                   name="password"
-                  onChange={handleRegisterChane}
+                  onChange={handleRegisterChange}
                 />
               </div>
 
@@ -135,7 +160,7 @@ const RegisterForm = () => {
                     days={days}
                     months={months}
                     years={years}
-                    handleRegisterChange={handleRegisterChane}
+                    handleRegisterChange={handleRegisterChange}
                     dateError={dateError}
                   />
                 </div>
@@ -144,38 +169,10 @@ const RegisterForm = () => {
                 <div className="reg_line_header">
                   Gender <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <label htmlFor="male">
-                    Male
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      id="male"
-                      onChange={handleRegisterChane}
-                    />
-                  </label>
-                  <label htmlFor="female">
-                    Female
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      id="female"
-                      onChange={handleRegisterChane}
-                    />
-                  </label>
-                  <label htmlFor="custom">
-                    Custom
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="custom"
-                      id="custom"
-                      onChange={handleRegisterChane}
-                    />
-                  </label>
-                </div>
+                <GenderSelect
+                  handleRegisterChange={handleRegisterChange}
+                  genderError={genderError}
+                />
               </div>
               <div className="reg_infos">
                 By clicking Sign Up, you agree to our{" "}

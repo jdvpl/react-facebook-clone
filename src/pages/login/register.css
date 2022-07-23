@@ -113,6 +113,17 @@
   margin: 20px 0 10px 0;
 }
 
+.reg_grid .input_error {
+  width: 300px;
+  position: absolute;
+  top: 70px;
+}
+
+.input_error_select_large {
+  left: -97%;
+  top: 15px !important;
+}
+
 @media (min-width: 539px) {
   .register {
     width: 400px;
@@ -123,6 +134,9 @@
   .reg_grid select,
   .reg_grid label {
     width: 110px;
+  }
+  .reg_grid .input_error {
+    width: 350px;
   }
   .reg_grid .input_error {
     width: 350px;
