@@ -112,3 +112,19 @@
   justify-content: center;
   margin: 20px 0 10px 0;
 }
+
+@media (min-width: 539px) {
+  .register {
+    width: 400px;
+  }
+  .reg_line {
+    flex-direction: row;
+  }
+  .reg_grid select,
+  .reg_grid label {
+    width: 110px;
+  }
+  .reg_grid .input_error {
+    width: 350px;
+  }
+}
