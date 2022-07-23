@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const RegisterForm = () => {
+const RegisterForm = ({ setvisible }) => {
   const userInfos = {
     first_name: "",
     last_name: "",
@@ -24,6 +24,7 @@ const RegisterForm = () => {
   const [user, setuser] = useState(userInfos);
   const [dateError, setDateError] = useState("");
   const [genderError, setGenderError] = useState("");
+  // states for api
   const [error, seterror] = useState("");
   const [success, setsuccess] = useState("");
   const [loading, setloading] = useState(false);
@@ -56,11 +57,11 @@ const RegisterForm = () => {
   // send to API
   const registerSubmit = async () => {
     try {
+      setloading(true);
       const { data } = await clienteAxios.post("/users/register", user);
       seterror("");
       setsuccess(data.msg);
       const { msg, ...rest } = data;
-      setloading(true);
       setTimeout(() => {
         dispatch({ type: "LOGIN", payload: rest });
         Cookies.set("user", JSON.stringify(rest));
@@ -109,7 +110,7 @@ const RegisterForm = () => {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i className="exit_icon" onClick={() => setvisible(false)}></i>
           <span>Sign Up</span>
           <span>It's quick and easy</span>
         </div>
