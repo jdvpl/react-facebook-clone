@@ -1,10 +1,10 @@
 import React from "react";
+import Header from "../../components/header";
 
 const Home = () => {
   return (
     <div>
-      hola
-      <i className="error_icon"></i>
+      <Header />
     </div>
   );
 };
