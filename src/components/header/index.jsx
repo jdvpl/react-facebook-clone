@@ -18,14 +18,21 @@ import SearchMenu from "./SearchMenu";
 import { useRef, useState } from "react";
 import AllMenu from "./AllMenu";
 import useClickOutside from "../../helpers/usecClickOutside";
+import UserMenu from "./userMenu";
 const Header = () => {
   const { user } = useSelector((user) => ({ ...user }));
   const [showSearchMenu, setshowSearchMenu] = useState(false);
   const [showAllMenu, setshowAllMenu] = useState(false);
+  const [showUserMenu, setshowUserMenu] = useState(false);
 
   const allmenu = useRef(null);
+  const usermenu = useRef(null);
+
   useClickOutside(allmenu, () => {
     setshowAllMenu(false);
+  });
+  useClickOutside(usermenu, () => {
+    setshowUserMenu(false);
   });
   const color = "#65676b";
   return (
@@ -71,12 +78,10 @@ const Header = () => {
           <img src={user?.picture} alt="" />
           <span>{user?.first_name}</span>
         </Link>
-        <div
-          ref={allmenu}
-          className="circle_icon hover1"
-          onClick={() => setshowAllMenu((prev) => !prev)}
-        >
-          <Menu />
+        <div ref={allmenu} className="circle_icon hover1">
+          <div onClick={() => setshowAllMenu((prev) => !prev)}>
+            <Menu />
+          </div>
           {showAllMenu && <AllMenu setshowAllMenu={setshowAllMenu} />}
         </div>
         <div className="circle_icon hover1">
@@ -86,8 +91,11 @@ const Header = () => {
           <Notifications />
           <div className="right_notification">5</div>
         </div>
-        <div className="circle_icon hover1">
-          <ArrowDown />
+        <div className="circle_icon hover1" ref={usermenu}>
+          <div onClick={() => setshowUserMenu((prev) => !prev)}>
+            <ArrowDown />
+          </div>
+          {showUserMenu && <UserMenu user={user} />}
         </div>
       </div>
     </header>
