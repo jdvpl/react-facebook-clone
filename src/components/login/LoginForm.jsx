@@ -42,8 +42,10 @@ const LoginForm = ({ setvisible }) => {
     try {
       setloading(true);
       const { data } = await clienteAxios.post("/users/login", login);
+      console.log(data);
+      console.log("data fixed");
       dispatch({ type: "LOGIN", payload: data });
-      Cookies.set("user", JSON.stringify(rest));
+      Cookies.set("user", JSON.stringify(data));
       navigate("/");
     } catch (e) {
       const error = e.response.data.errors
@@ -93,13 +95,13 @@ const LoginForm = ({ setvisible }) => {
                   Log In
                 </button>
                 {error && <div className="error_text">{error}</div>}
-                <DotLoader color="#1876f2" loading={loading} size={30} />
               </Form>
             )}
           </Formik>
           <Link to="/forgot" className="forgot_password">
             Forgotten password?
           </Link>
+          <DotLoader color="#1876f2" loading={loading} size={30} />
           <div className="sign_splitter"></div>
           <button
             className="blue_btn open_signup"
