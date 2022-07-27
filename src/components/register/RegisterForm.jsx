@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import DateOfBirthSelect from "./DateOfBirthSelect";
 import GenderSelect from "./GenderSelect";
 import DotLoader from "react-spinners/DotLoader";
-import clienteAxios from "../../config/Axios";
+import clientAxios from "../../config/Axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -58,7 +58,7 @@ const RegisterForm = ({ setvisible }) => {
   const registerSubmit = async () => {
     try {
       setloading(true);
-      const { data } = await clienteAxios.post("/users/register", user);
+      const { data } = await clientAxios.post("/users/register", user);
       seterror("");
       setsuccess(data.msg);
       const { msg, ...rest } = data;

@@ -5,7 +5,7 @@ import LoginInput from "../../components/inputs/loginInput";
 import * as Yup from "yup";
 
 import DotLoader from "react-spinners/DotLoader";
-import clienteAxios from "../../config/Axios";
+import clientAxios from "../../config/Axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +41,7 @@ const LoginForm = ({ setvisible }) => {
   const loginSubmit = async () => {
     try {
       setloading(true);
-      const { data } = await clienteAxios.post("/users/login", login);
+      const { data } = await clientAxios.post("/users/login", login);
       console.log(data);
       console.log("data fixed");
       dispatch({ type: "LOGIN", payload: data });
