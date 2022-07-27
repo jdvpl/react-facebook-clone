@@ -42,6 +42,7 @@
 /* poppu */
 @media (max-width: 1175px) {
   .stories,
+  .send_verification,
   .createPost {
     width: 84%;
   }
@@ -87,13 +88,15 @@
     width: 20px;
   }
   .stories,
+  .send_verification,
   .createPost {
     width: 100%;
   }
 }
 
 @media (max-width: 960px) {
-  .createPost {
+  .createPost,
+  .send_verification {
     width: 93%;
   }
   .stories {
@@ -121,6 +124,7 @@
   .right_home {
     display: none;
   }
+  .send_verification,
   .createPost {
     width: 110%;
   }
@@ -167,6 +171,7 @@
     margin-left: 0;
   }
   .stories,
+  .send_verification,
   .createPost {
     width: 100%;
   }

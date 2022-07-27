@@ -44,7 +44,6 @@ const Activate = () => {
         ? e.response.data.errors[0].msg
         : e.response.data.msg;
       seterror(error);
-      setloading(false);
       setTimeout(() => {
         navigate("/");
       }, 3000);
