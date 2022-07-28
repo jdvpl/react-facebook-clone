@@ -67,7 +67,7 @@
 
 /* footer */
 .login_footer {
-  height: 15vh;
+  height: fit-content;
   background: var(--bg-primary);
   padding: 1.5rem;
 }
