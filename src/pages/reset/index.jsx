@@ -72,7 +72,15 @@ const Reset = () => {
           />
         )}
         {visible == 2 && (
-          <CodeVerication code={code} setcode={setcode} error={error} />
+          <CodeVerication
+            code={code}
+            setcode={setcode}
+            error={error}
+            seterror={seterror}
+            setloading={setloading}
+            setvisible={setvisible}
+            userInfos={userInfos}
+          />
         )}
         {visible == 3 && (
           <ChangePassword
