@@ -1,14 +1,21 @@
 import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginInput from "../../components/inputs/loginInput";
 import * as Yup from "yup";
+import clientAxios from "../../config/Axios";
 const ChangePassword = ({
   password,
   setpassword,
   confirmPassword,
   setconfirmPassword,
   error,
+  seterror,
+  setloading,
+  userInfos,
+  success,
+  setsuccess,
 }) => {
+  const navigate = useNavigate();
   const validatePassword = Yup.object({
     password: Yup.string()
       .required(
@@ -20,6 +27,29 @@ const ChangePassword = ({
       .required("Confirm your password")
       .oneOf([Yup.ref("password")], "Passwords muts match"),
   });
+
+  const changePassword = async () => {
+    try {
+      setloading(true);
+      const { data } = await clientAxios.put("/users/changePassword", {
+        email: userInfos.email,
+        password,
+      });
+      seterror("");
+      setloading(false);
+      setsuccess(data.msg);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (e) {
+      console.log(e);
+      setloading(false);
+      const error = e.response.data.errors
+        ? e.response.data.errors[0].msg
+        : e.response.data.msg;
+      seterror(error);
+    }
+  };
   return (
     <div className="reset_form" style={{ height: "310px" }}>
       <div className="reset_form_header">Change Password</div>
@@ -28,6 +58,9 @@ const ChangePassword = ({
         enableReinitialize
         initialValues={{ password, confirmPassword }}
         validationSchema={validatePassword}
+        onSubmit={() => {
+          changePassword();
+        }}
       >
         {(formik) => (
           <Form>
@@ -45,6 +78,7 @@ const ChangePassword = ({
               bottom
             />
             {error && <div className="error_text">{error}</div>}
+            {success && <div className="success_text">{success}</div>}
             <div className="reset_form_btns">
               <Link className="gray_btn" to="/login">
                 Cancel

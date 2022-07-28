@@ -21,6 +21,7 @@ const Reset = () => {
   const [error, seterror] = useState("");
   const [loading, setloading] = useState(false);
   const [userInfos, setuserInfos] = useState({});
+  const [success, setsuccess] = useState("");
   const logout = () => {
     dispatch({
       type: "LOGOUT",
@@ -89,6 +90,12 @@ const Reset = () => {
             confirmPassword={confirmPassword}
             setconfirmPassword={setconfirmPassword}
             error={error}
+            seterror={seterror}
+            setloading={setloading}
+            setvisible={setvisible}
+            userInfos={userInfos}
+            success={success}
+            setsuccess={setsuccess}
           />
         )}
       </div>
