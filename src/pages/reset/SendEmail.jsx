@@ -1,6 +1,30 @@
 import { Link } from "react-router-dom";
+import clientAxios from "../../config/Axios";
 
-const SendEmail = ({ user }) => {
+const SendEmail = ({
+  userInfos,
+  setuserInfos,
+  setvisible,
+  seterror,
+  setloading,
+  error,
+}) => {
+  const sendEmail = async () => {
+    try {
+      setloading(true);
+      await clientAxios.post("/users/sendCode", {
+        email: userInfos.email,
+      });
+      setvisible(2);
+      seterror("");
+    } catch (e) {
+      setloading(false);
+      const error = e.response.data.errors
+        ? e.response.data.errors[0].msg
+        : e.response.data.msg;
+      seterror(error);
+    }
+  };
   return (
     <div className="reset_form dynamic_height">
       <div className="reset_form_header">Reset your password</div>
@@ -13,21 +37,26 @@ const SendEmail = ({ user }) => {
             <input type="radio" name="" id="email" checked readOnly />
             <div className="label_col">
               <span>Send code via email</span>
-              <span>kakaroto@kakaroto.com</span>
+              <span>{userInfos.email}</span>
             </div>
           </label>
         </div>
         <div className="reset_right">
-          <img src={user?.picture} alt="" />
-          <span>kakaroto@kakaroto.com</span>
-          <span>Faceook user</span>
+          <img src={userInfos?.picture} alt="" />
+          <span>{userInfos.email}</span>
+          <span>{userInfos.username}</span>
         </div>
       </div>
+      {error && (
+        <div className="error_text" style={{ paddingLeft: "10px" }}>
+          {error}
+        </div>
+      )}
       <div className="reset_form_btns">
         <Link className="gray_btn" to="/login">
           Not you?
         </Link>
-        <button className="blue_btn" type="submit">
+        <button className="blue_btn" type="submit" onClick={() => sendEmail()}>
           Continue
         </button>
       </div>

@@ -13,12 +13,14 @@ const Reset = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [visible, setvisible] = useState(3);
+  const [visible, setvisible] = useState(0);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [code, setcode] = useState("");
   const [error, seterror] = useState("");
+  const [loading, setloading] = useState(false);
+  const [userInfos, setuserInfos] = useState({});
   const logout = () => {
     dispatch({
       type: "LOGOUT",
@@ -26,6 +28,7 @@ const Reset = () => {
     Cookies.remove("user");
     navigate("/login");
   };
+
   return (
     <div className="reset">
       <div className="reset_header">
@@ -48,9 +51,26 @@ const Reset = () => {
       </div>
       <div className="reset_wrap">
         {visible == 0 && (
-          <SearchAccount email={email} setemail={setemail} error={error} />
+          <SearchAccount
+            email={email}
+            setemail={setemail}
+            error={error}
+            setloading={setloading}
+            seterror={seterror}
+            setuserInfos={setuserInfos}
+            setvisible={setvisible}
+          />
         )}
-        {visible == 1 && <SendEmail user={user} />}
+        {visible == 1 && userInfos && (
+          <SendEmail
+            userInfos={userInfos}
+            error={error}
+            seterror={seterror}
+            setloading={setloading}
+            setuserInfos={setuserInfos}
+            setvisible={setvisible}
+          />
+        )}
         {visible == 2 && (
           <CodeVerication code={code} setcode={setcode} error={error} />
         )}
