@@ -13,7 +13,7 @@ const Reset = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [visible, setvisible] = useState(0);
+  const [visible, setvisible] = useState(3);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
