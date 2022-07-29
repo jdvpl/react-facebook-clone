@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import "./style.css";
 import EmojiPickerBackground from "./EmojiPickerBackground";
 import AddToYourPost from "./AddToYourPost";
@@ -6,8 +6,6 @@ import ImagePreview from "./ImagePreview";
 const CreatePostPopup = ({ user }) => {
   const [text, setText] = useState("");
   const [showPrev, setshowPrev] = useState(true);
-
-  const textref = useRef(null);
 
   return (
     <div className="blur">
@@ -34,14 +32,10 @@ const CreatePostPopup = ({ user }) => {
 
         {!showPrev ? (
           <>
-            <EmojiPickerBackground
-              text={text}
-              textref={textref}
-              setText={setText}
-            />
+            <EmojiPickerBackground text={text} setText={setText} user={user} />
           </>
         ) : (
-          <ImagePreview />
+          <ImagePreview text={text} setText={setText} user={user} />
         )}
         <AddToYourPost />
         <button className="post_submit">Post</button>

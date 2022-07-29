@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Picker from "emoji-picker-react";
 
-const EmojiPickerBackground = ({ text, textref, setText }) => {
+const EmojiPickerBackground = ({ text, user, setText, type2 }) => {
   const [picker, setpicker] = useState(false);
   const [cursorPosition, setcursorPosition] = useState();
-
+  const textref = useRef(null);
   const handleEmoji = (e, { emoji }) => {
     const ref = textref.current;
     ref.focus();
@@ -19,33 +19,37 @@ const EmojiPickerBackground = ({ text, textref, setText }) => {
     textref.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
   return (
-    <>
-      <div className="flex_center">
+    <div className={`${type2 && "images_input"}`}>
+      <div className={`${!type2 && "flex_center"}`}>
         <textarea
           ref={textref}
           maxLength="100"
           value={text}
           placeholder={`What's on your mind? ${user.first_name}`}
-          className="post_input"
+          className={`post_input ${type2 && "input2"}`}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
       </div>
 
-      <div className="post_emojis_wap">
+      <div className={`${!type2 && "post_emojis_wap"}`}>
         {picker && (
-          <div className="comment_emoji_picker rlmove">
+          <div
+            className={`comment_emoji_picker ${
+              type2 ? "movepicker2" : "rlmove"
+            }`}
+          >
             <Picker onEmojiClick={handleEmoji} />
           </div>
         )}
-        <img src="../../../assets/icons/colorful.png" alt="" />
+        {!type2 && <img src="../../../assets/icons/colorful.png" alt="" />}
         <i
-          className="emoji_icon_large"
+          className={`emoji_icon_large ${type2 && "moveleft"}`}
           onClick={() => {
             setpicker((prev) => !prev);
           }}
         ></i>
       </div>
-    </>
+    </div>
   );
 };
 
