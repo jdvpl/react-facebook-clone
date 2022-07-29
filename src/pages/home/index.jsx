@@ -9,7 +9,6 @@ import Stories from "../../components/home/stories";
 import "./styles.css";
 const Home = () => {
   const { user } = useSelector((state) => ({ ...state }));
-  console.log(user.verified);
   return (
     <div className="home">
       <Header />

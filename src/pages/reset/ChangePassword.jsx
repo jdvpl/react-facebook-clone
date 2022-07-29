@@ -42,7 +42,6 @@ const ChangePassword = ({
         navigate("/");
       }, 2000);
     } catch (e) {
-      console.log(e);
       setloading(false);
       const error = e.response.data.errors
         ? e.response.data.errors[0].msg

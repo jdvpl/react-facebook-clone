@@ -19,20 +19,33 @@ const EmojiPickerBackground = ({ text, textref, setText }) => {
     textref.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
   return (
-    <div className="post_emojis_wap">
-      {picker && (
-        <div className="comment_emoji_picker rlmove">
-          <Picker onEmojiClick={handleEmoji} />
-        </div>
-      )}
-      <img src="../../../assets/icons/colorful.png" alt="" />
-      <i
-        className="emoji_icon_large"
-        onClick={() => {
-          setpicker((prev) => !prev);
-        }}
-      ></i>
-    </div>
+    <>
+      <div className="flex_center">
+        <textarea
+          ref={textref}
+          maxLength="100"
+          value={text}
+          placeholder={`What's on your mind? ${user.first_name}`}
+          className="post_input"
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
+      </div>
+
+      <div className="post_emojis_wap">
+        {picker && (
+          <div className="comment_emoji_picker rlmove">
+            <Picker onEmojiClick={handleEmoji} />
+          </div>
+        )}
+        <img src="../../../assets/icons/colorful.png" alt="" />
+        <i
+          className="emoji_icon_large"
+          onClick={() => {
+            setpicker((prev) => !prev);
+          }}
+        ></i>
+      </div>
+    </>
   );
 };
 

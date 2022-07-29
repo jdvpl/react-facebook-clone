@@ -13,7 +13,6 @@ const SendVerification = ({ user }) => {
         "/users/sendVerification",
         tokenHeaders(user.token)
       );
-      console.log(data);
       setsuccess(data.msg);
     } catch (e) {
       const error = e.response.data.errors

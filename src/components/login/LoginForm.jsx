@@ -42,8 +42,6 @@ const LoginForm = ({ setvisible }) => {
     try {
       setloading(true);
       const { data } = await clientAxios.post("/users/login", login);
-      console.log(data);
-      console.log("data fixed");
       dispatch({ type: "LOGIN", payload: data });
       Cookies.set("user", JSON.stringify(data));
       navigate("/");
