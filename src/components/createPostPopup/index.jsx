@@ -7,6 +7,8 @@ import useClickOutside from "../../helpers/usecClickOutside";
 import { createPost } from "../../functions/post";
 import PulseLoader from "react-spinners/PulseLoader";
 import PostError from "./PostError";
+import dataURItoBlob from "../../helpers/dataURItoBlob";
+import { uploadImages } from "../../functions/UploadImages";
 const CreatePostPopup = ({ user, setcreatePostVisible }) => {
   const [text, setText] = useState("");
   const [showPrev, setshowPrev] = useState(false);
@@ -37,6 +39,54 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
       } else {
         seterror(res.error);
       }
+    } else if (images && images.length) {
+      setloading(true);
+      const postImages = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = `${user.username}/postImages`;
+      let formData = new FormData();
+      formData.append("path", path);
+      postImages.map((image) => {
+        formData.append("file", image);
+      });
+      const response = await uploadImages(formData, path, user.token);
+      if (response.ok) {
+        const res = await createPost(
+          null,
+          null,
+          text,
+          response.data,
+          user.id,
+          user.token
+        );
+        if (res.ok) {
+          setloading(false);
+          setimages([]);
+          setText("");
+          setcreatePostVisible(false);
+        } else {
+          setloading(false);
+          seterror(res.error);
+        }
+      } else {
+        setloading(false);
+        seterror(response.error);
+      }
+    } else if (text.length > 0) {
+      console.log("entro en este");
+      setloading(true);
+      const res = await createPost(null, null, text, null, user.id, user.token);
+      setloading(false);
+      if (res.ok) {
+        setbackground("");
+        setText("");
+        setcreatePostVisible(false);
+      } else {
+        seterror(res.error);
+      }
+    } else {
+      seterror("nothing");
     }
   };
   return (
@@ -91,10 +141,9 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
         <AddToYourPost setshowPrev={setshowPrev} />
         <button
           className={`post_submit ${
-            text.length == 0 && "post_submit_disabled"
+            text.length == 0 && !images.length ? "post_submit_disabled" : ""
           }`}
           onClick={() => postSubmit()}
-          disabled={loading || text.length == 0}
         >
           {loading ? <PulseLoader color="#fff" size={5} /> : "Post"}
         </button>

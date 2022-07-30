@@ -145,6 +145,7 @@
 .post_submit_disabled {
   background: var(--bg-third);
   color: var(--color-primary);
+  pointer-events: none;
 }
 .post_submit_disabled:hover {
   cursor: not-allowed;
