@@ -32,6 +32,7 @@ const ImagePreview = ({
           hidden
           onChange={handleImages}
           ref={iamgeInputRef}
+          accept="image/*"
         />
         {images && images.length ? (
           <div className="add_pics_inside1 p0">

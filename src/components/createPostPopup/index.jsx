@@ -4,18 +4,45 @@ import EmojiPickerBackground from "./EmojiPickerBackground";
 import AddToYourPost from "./AddToYourPost";
 import ImagePreview from "./ImagePreview";
 import useClickOutside from "../../helpers/usecClickOutside";
+import { createPost } from "../../functions/post";
+import PulseLoader from "react-spinners/PulseLoader";
+import PostError from "./PostError";
 const CreatePostPopup = ({ user, setcreatePostVisible }) => {
   const [text, setText] = useState("");
   const [showPrev, setshowPrev] = useState(false);
   const [images, setimages] = useState([]);
   const [background, setbackground] = useState("");
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState("");
   const popup = useRef(null);
   useClickOutside(popup, () => {
     setcreatePostVisible(false);
   });
+  const postSubmit = async () => {
+    if (background) {
+      setloading(true);
+      const res = await createPost(
+        null,
+        background,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setloading(false);
+      if (res.ok) {
+        setbackground("");
+        setText("");
+        setcreatePostVisible(false);
+      } else {
+        seterror(res.error);
+      }
+    }
+  };
   return (
     <div className="blur">
       <div className="postBox" ref={popup}>
+        {error && <PostError error={error} seterror={seterror} />}
         <div className="box_header">
           <div
             className="small_circle"
@@ -62,7 +89,15 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
           />
         )}
         <AddToYourPost setshowPrev={setshowPrev} />
-        <button className="post_submit">Post</button>
+        <button
+          className={`post_submit ${
+            text.length == 0 && "post_submit_disabled"
+          }`}
+          onClick={() => postSubmit()}
+          disabled={loading || text.length == 0}
+        >
+          {loading ? <PulseLoader color="#fff" size={5} /> : "Post"}
+        </button>
       </div>
     </div>
   );
