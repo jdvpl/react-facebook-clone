@@ -8,12 +8,26 @@ const ImagePreview = ({
   images,
   setimages,
   setshowPrev,
+  seterror,
 }) => {
   const iamgeInputRef = useRef(null);
 
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
     files.map((img) => {
+      if (
+        img.type !== "image/jpeg" &&
+        img.type !== "image/png" &&
+        img.type !== "image/gif" &&
+        img.type !== "image/jpg" &&
+        img.type !== "image/webp"
+      ) {
+        seterror(`${img.type} is unsupported`);
+        return;
+      } else if (img.size > 1024 * 1024 * 5) {
+        seterror(`${img.name} size is too large max 5mb allowed`);
+        return;
+      }
       const reader = new FileReader();
       reader.readAsDataURL(img);
       reader.onload = (readerEvent) => {

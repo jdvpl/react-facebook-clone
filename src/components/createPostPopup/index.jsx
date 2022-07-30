@@ -86,7 +86,7 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
         seterror(res.error);
       }
     } else {
-      seterror("nothing");
+      seterror("You should provide something to share.");
     }
   };
   return (
@@ -136,6 +136,7 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
             setshowPrev={setshowPrev}
             images={images}
             setimages={setimages}
+            seterror={seterror}
           />
         )}
         <AddToYourPost setshowPrev={setshowPrev} />

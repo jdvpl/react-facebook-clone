@@ -145,7 +145,7 @@
 .post_submit_disabled {
   background: var(--bg-third);
   color: var(--color-primary);
-  pointer-events: none;
+  cursor: not-allowed;
 }
 .post_submit_disabled:hover {
   cursor: not-allowed;
@@ -411,15 +411,16 @@
   bottom: 0;
   left: 0;
   background: var(--bg-primary);
-  opacity: 0.8;
+  opacity: 0.9;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 999;
   color: #b94a48;
   gap: 10px;
   animation: anim 0.4s;
   border-radius: 10px;
+  padding: 3rem;
 }
 @keyframes anim {
   0% {
@@ -428,4 +429,9 @@
   100% {
     width: 100%;
   }
+}
+.postError_error {
+  width: 75%;
+  word-break: break-word;
+  font-weight: 600;
 }
