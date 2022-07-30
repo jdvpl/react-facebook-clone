@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Picker from "emoji-picker-react";
+import useClickOutside from "../../helpers/usecClickOutside";
 
 const EmojiPickerBackground = ({
   text,
@@ -15,6 +16,7 @@ const EmojiPickerBackground = ({
 
   const textref = useRef(null);
   const bgRef = useRef(null);
+  const iconRef = useRef(null);
   const handleEmoji = (e, { emoji }) => {
     const ref = textref.current;
     ref.focus();
@@ -68,6 +70,9 @@ const EmojiPickerBackground = ({
     bgRef.current.classList.remove("bgHandlerColorWhite");
     bgRef.current.classList.remove("bgHandler");
   };
+  useClickOutside(iconRef, () => {
+    setpicker(false);
+  });
   return (
     <div className={`${type2 && "images_input"}`}>
       <div className={`${!type2 && "flex_center"}`} ref={bgRef}>
@@ -88,7 +93,7 @@ const EmojiPickerBackground = ({
         ></textarea>
       </div>
 
-      <div className={`${!type2 && "post_emojis_wap"}`}>
+      <div className={`${!type2 && "post_emojis_wap"}`} ref={iconRef}>
         {picker && (
           <div
             className={`comment_emoji_picker ${
