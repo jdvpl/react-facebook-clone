@@ -5,8 +5,9 @@ import AddToYourPost from "./AddToYourPost";
 import ImagePreview from "./ImagePreview";
 const CreatePostPopup = ({ user }) => {
   const [text, setText] = useState("");
-  const [showPrev, setshowPrev] = useState(true);
+  const [showPrev, setshowPrev] = useState(false);
   const [images, setimages] = useState([]);
+  const [background, setbackground] = useState("");
 
   return (
     <div className="blur">
@@ -38,6 +39,8 @@ const CreatePostPopup = ({ user }) => {
               setText={setText}
               user={user}
               showPrev={showPrev}
+              background={background}
+              setbackground={setbackground}
             />
           </>
         ) : (

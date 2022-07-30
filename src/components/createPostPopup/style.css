@@ -359,3 +359,39 @@
 .singular_grid img:nth-child(1) {
   grid-column: 1/3;
 }
+
+.post_backgrounds {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  align-items: center;
+  gap: 5px;
+}
+.post_backgrounds img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.no_bg {
+  width: 35px;
+  height: 35px;
+  background: var(--bg-secondary);
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.bgHandler {
+  height: 360px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.bgHandler textarea {
+  text-align: center;
+  height: 360px;
+  margin-top: 10px;
+}
+.bgHandlerColorWhite textarea {
+  color: white !important;
+}
