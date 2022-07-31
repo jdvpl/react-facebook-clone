@@ -9,6 +9,7 @@ const EmojiPickerBackground = ({
   type2,
   background,
   setbackground,
+  settexColor,
 }) => {
   const [picker, setpicker] = useState(false);
   const [cursorPosition, setcursorPosition] = useState();
@@ -58,8 +59,10 @@ const EmojiPickerBackground = ({
     bgRef.current.classList.add("bgHandler");
     if (i == 1 || i == 6 || i == 9 || i == 14) {
       bgRef.current.classList.remove("bgHandlerColorWhite");
+      settexColor("textBlack");
     } else {
       bgRef.current.classList.add("bgHandlerColorWhite");
+      settexColor("textWhite");
     }
   };
 

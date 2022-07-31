@@ -7,10 +7,11 @@ export const createPost = async (
   text,
   images,
   user,
-  token
+  token,
+  textColor
 ) => {
   try {
-    const info = { type, background, text, images, user };
+    const info = { type, background, text, images, user, textColor };
     const { data } = await clientAxios.post("/post", info, tokenHeaders(token));
     return { data, ok: true };
   } catch (e) {

@@ -59,7 +59,6 @@ const App = () => {
       });
     }
   };
-  console.log(posts);
   return (
     <div>
       {createPostVisible && (

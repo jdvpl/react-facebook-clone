@@ -16,6 +16,7 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
   const [background, setbackground] = useState("");
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState("");
+  const [textColor, settexColor] = useState("textBlack");
   const popup = useRef(null);
   useClickOutside(popup, () => {
     setcreatePostVisible(false);
@@ -29,7 +30,8 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
         text,
         null,
         user.id,
-        user.token
+        user.token,
+        textColor
       );
       setloading(false);
       if (res.ok) {
@@ -58,7 +60,8 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
           text,
           response.data,
           user.id,
-          user.token
+          user.token,
+          textColor
         );
         if (res.ok) {
           setloading(false);
@@ -74,9 +77,16 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
         seterror(response.error);
       }
     } else if (text.length > 0) {
-      console.log("entro en este");
       setloading(true);
-      const res = await createPost(null, null, text, null, user.id, user.token);
+      const res = await createPost(
+        null,
+        null,
+        text,
+        null,
+        user.id,
+        user.token,
+        textColor
+      );
       setloading(false);
       if (res.ok) {
         setbackground("");
@@ -125,6 +135,7 @@ const CreatePostPopup = ({ user, setcreatePostVisible }) => {
               showPrev={showPrev}
               background={background}
               setbackground={setbackground}
+              settexColor={settexColor}
             />
           </>
         ) : (
