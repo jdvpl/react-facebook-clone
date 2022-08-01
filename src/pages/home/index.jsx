@@ -25,7 +25,7 @@ const Home = ({ setcreatePostVisible, posts }) => {
         <CreatePost user={user} setcreatePostVisible={setcreatePostVisible} />
         <div className="posts">
           {posts.map((post) => (
-            <Post key={post.id} post={post} />
+            <Post key={post.id} post={post} user={user} />
           ))}
         </div>
       </div>

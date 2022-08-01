@@ -2,9 +2,10 @@ import * as moment from "moment";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Dots, Public } from "../../svg";
+import CreateComment from "./CreateComment";
 import ReactsPopup from "./ReactsPopup";
 import "./style.css";
-const Post = ({ post }) => {
+const Post = ({ post, user }) => {
   const [visible, setvisible] = useState(false);
   return (
     <div className="post">
@@ -104,6 +105,10 @@ const Post = ({ post }) => {
           <i className="share_icon"></i>
           <span>Share</span>
         </div>
+      </div>
+      <div className="comments_wrap">
+        <div className="comments_order"></div>
+        <CreateComment user={user} />
       </div>
     </div>
   );
