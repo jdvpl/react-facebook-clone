@@ -1,12 +1,20 @@
 import * as moment from "moment";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import useClickOutside from "../../helpers/usecClickOutside";
 import { Dots, Public } from "../../svg";
 import CreateComment from "./CreateComment";
+import PostMenu from "./PostMenu";
 import ReactsPopup from "./ReactsPopup";
 import "./style.css";
 const Post = ({ post, user }) => {
   const [visible, setvisible] = useState(false);
+  const [showMenu, setshowMenu] = useState(false);
+  const postMenuRef = useRef(null);
+
+  useClickOutside(postMenuRef, () => {
+    setshowMenu(false);
+  });
   return (
     <div className="post">
       <div className="post_header">
@@ -35,7 +43,10 @@ const Post = ({ post, user }) => {
             </div>
           </div>
         </Link>
-        <div className="post_header_right hover1">
+        <div
+          className="post_header_right hover1"
+          onClick={() => setshowMenu((prev) => !prev)}
+        >
           <Dots color="#828387" />
         </div>
       </div>
@@ -110,6 +121,16 @@ const Post = ({ post, user }) => {
         <div className="comments_order"></div>
         <CreateComment user={user} />
       </div>
+
+      {showMenu && (
+        <div ref={postMenuRef}>
+          <PostMenu
+            userId={user.id}
+            postUserId={post.user.id}
+            imagesLength={post.images?.length}
+          />
+        </div>
+      )}
     </div>
   );
 };
