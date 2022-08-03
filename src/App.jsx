@@ -9,25 +9,14 @@ import Activate from "./pages/home/activate";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Reset from "./pages/reset";
+import { postsReducer } from "./redux/reducers";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "POSTS_REQUEST":
-      return { ...state, loading: true, error: "" };
-    case "POSTS_SUCCESS":
-      return { ...state, loading: false, posts: action.payload, error: "" };
-    case "POSTS_ERROR":
-      return { ...state, error: action.payload, loading: false };
-    default:
-      return state;
-  }
-};
 const App = () => {
   const [createPostVisible, setcreatePostVisible] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
-  const [{ loading, error, posts }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, posts }, dispatch] = useReducer(postsReducer, {
     loading: false,
     posts: [],
     error: "",
@@ -70,6 +59,7 @@ const App = () => {
       <Routes>
         <Route element={<LoggedInRoutes />}>
           <Route path="/profile" element={<Profile />} exact />
+          <Route path="/profile/:username" element={<Profile />} exact />
           <Route
             path="/"
             element={
