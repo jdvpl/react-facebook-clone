@@ -1,10 +1,12 @@
-import React, { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import Header from "../../components/header";
+import ProfileCover from "../../components/profile/ProfileCover";
 import clientAxios from "../../config/Axios";
 import { tokenHeaders } from "../../config/headers";
 import { profileReducer } from "../../redux/reducers";
-
+import "./style.css";
 const Profile = () => {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -47,8 +49,16 @@ const Profile = () => {
       });
     }
   };
-  console.log(profile);
-  return <div>Profile</div>;
+  return (
+    <div className="profile">
+      <Header page="profile" />
+      <div className="profile_top">
+        <div className="profile_container">
+          <ProfileCover cover={profile.cover} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Profile;

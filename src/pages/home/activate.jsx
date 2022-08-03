@@ -67,7 +67,7 @@ const Activate = () => {
           loading={loading}
         />
       )}
-      <Header />
+      <Header path="home" />
       <LeftHome user={user} />
       <div className="home_middle">
         <Stories />

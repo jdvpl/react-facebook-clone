@@ -472,6 +472,11 @@ header {
 .active_header svg {
   fill: var(--blue-color);
 }
+
+.active_link {
+  background: var(--light-blue-color);
+  color: var(--blue-color);
+}
 /* responsive */
 
 @media (max-width: 1295px) {
