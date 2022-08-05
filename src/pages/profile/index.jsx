@@ -56,29 +56,41 @@ const Profile = ({ setcreatePostVisible }) => {
       });
     }
   };
+  const visitor = userName === user.username ? false : true;
   return (
     <div className="profile">
       <Header page="profile" />
       <div className="profile_top">
         <div className="profile_container">
-          <ProfileCover cover={profile.cover} />
-          <ProfilePictureInfo profile={profile} />
+          <ProfileCover cover={profile.cover} visitor={visitor} />
+          <ProfilePictureInfo profile={profile} visitor={visitor} />
           <ProfileMenu />
         </div>
       </div>
       <div className="profile_bottom">
         <div className="profile_container">
           <div className="bottom_container">
-            <PeopleYouMayKnow />
+            {!visitor && <PeopleYouMayKnow />}
             <div className="profile_grid">
               <div className="profile_left"></div>
               <div className="profile_right">
-                <CreatePost
-                  user={user}
-                  profile={profile}
-                  setcreatePostVisible={setcreatePostVisible}
-                />
+                {!visitor && (
+                  <CreatePost
+                    user={user}
+                    profile={profile}
+                    setcreatePostVisible={setcreatePostVisible}
+                  />
+                )}
                 <GridPosts />
+                <div className="posts">
+                  {profile.posts && profile.posts.length ? (
+                    profile.posts.map((post) => (
+                      <Post post={post} user={user} key={post.id} />
+                    ))
+                  ) : (
+                    <div className="no_post">No posts available</div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
