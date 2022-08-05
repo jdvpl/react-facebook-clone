@@ -7,7 +7,7 @@ import CreateComment from "./CreateComment";
 import PostMenu from "./PostMenu";
 import ReactsPopup from "./ReactsPopup";
 import "./style.css";
-const Post = ({ post, user }) => {
+const Post = ({ post, user, profile }) => {
   const [visible, setvisible] = useState(false);
   const [showMenu, setshowMenu] = useState(false);
   const postMenuRef = useRef(null);
@@ -16,7 +16,7 @@ const Post = ({ post, user }) => {
     setshowMenu(false);
   });
   return (
-    <div className="post">
+    <div className="post" style={{ width: `${profile && "100%"}` }}>
       <div className="post_header">
         <Link
           to={`/profile/${post.user.username}`}

@@ -1,11 +1,13 @@
 import { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CreatePost from "../../components/createPost";
 import Header from "../../components/header";
 import Post from "../../components/post";
+import Friends from "../../components/profile/Friends";
 import GridPosts from "../../components/profile/GridPosts";
 import PeopleYouMayKnow from "../../components/profile/PeopleYouMayKnow";
+import Photos from "../../components/profile/Photos";
 import ProfileCover from "../../components/profile/ProfileCover";
 import ProfileMenu from "../../components/profile/ProfileMenu";
 import ProfilePictureInfo from "../../components/profile/ProfilePictureInfo";
@@ -72,7 +74,22 @@ const Profile = ({ setcreatePostVisible }) => {
           <div className="bottom_container">
             {!visitor && <PeopleYouMayKnow />}
             <div className="profile_grid">
-              <div className="profile_left"></div>
+              <div className="profile_left">
+                <Photos userName={userName} user={user} />
+                <Friends friends={profile?.friends} />
+                <div className="relativa_fb_copyright">
+                  <Link to="/">Privacy </Link> <span>. </span>
+                  <Link to="/">Terms </Link> <span>. </span>
+                  <Link to="/">Advertising </Link> <span>. </span>
+                  <Link to="/">
+                    Ad Choices <i className="ad_choices_icon"></i>{" "}
+                  </Link>
+                  <span>. </span>
+                  <Link to="/">Cookies </Link> <span>. </span>
+                  <Link to="/">More </Link> <span>. </span> <br />
+                  Meta © 2022
+                </div>
+              </div>
               <div className="profile_right">
                 {!visitor && (
                   <CreatePost
@@ -85,7 +102,7 @@ const Profile = ({ setcreatePostVisible }) => {
                 <div className="posts">
                   {profile.posts && profile.posts.length ? (
                     profile.posts.map((post) => (
-                      <Post post={post} user={user} key={post.id} />
+                      <Post post={post} user={user} key={post.id} profile />
                     ))
                   ) : (
                     <div className="no_post">No posts available</div>

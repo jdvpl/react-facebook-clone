@@ -22,3 +22,15 @@ export const profileReducer = (state, action) => {
       return state;
   }
 };
+export const photosReducer = (state, action) => {
+  switch (action.type) {
+    case "PHOTOS_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "PHOTOS_SUCCESS":
+      return { ...state, loading: false, photos: action.payload, error: "" };
+    case "PHOTOS_ERROR":
+      return { ...state, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};
