@@ -58,8 +58,16 @@ const App = () => {
       )}
       <Routes>
         <Route element={<LoggedInRoutes />}>
-          <Route path="/profile" element={<Profile />} exact />
-          <Route path="/profile/:username" element={<Profile />} exact />
+          <Route
+            path="/profile"
+            element={<Profile setcreatePostVisible={setcreatePostVisible} />}
+            exact
+          />
+          <Route
+            path="/profile/:username"
+            element={<Profile setcreatePostVisible={setcreatePostVisible} />}
+            exact
+          />
           <Route
             path="/"
             element={

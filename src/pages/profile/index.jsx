@@ -1,7 +1,10 @@
 import { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import CreatePost from "../../components/createPost";
 import Header from "../../components/header";
+import Post from "../../components/post";
+import GridPosts from "../../components/profile/GridPosts";
 import PeopleYouMayKnow from "../../components/profile/PeopleYouMayKnow";
 import ProfileCover from "../../components/profile/ProfileCover";
 import ProfileMenu from "../../components/profile/ProfileMenu";
@@ -10,7 +13,8 @@ import clientAxios from "../../config/Axios";
 import { tokenHeaders } from "../../config/headers";
 import { profileReducer } from "../../redux/reducers";
 import "./style.css";
-const Profile = () => {
+
+const Profile = ({ setcreatePostVisible }) => {
   const { username } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
@@ -66,6 +70,17 @@ const Profile = () => {
         <div className="profile_container">
           <div className="bottom_container">
             <PeopleYouMayKnow />
+            <div className="profile_grid">
+              <div className="profile_left"></div>
+              <div className="profile_right">
+                <CreatePost
+                  user={user}
+                  profile={profile}
+                  setcreatePostVisible={setcreatePostVisible}
+                />
+                <GridPosts />
+              </div>
+            </div>
           </div>
         </div>
       </div>

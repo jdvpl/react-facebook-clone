@@ -1,7 +1,7 @@
 import { Feeling, LiveVideo, Photo } from "../../svg";
 import "./style.css";
 
-const CreatePost = ({ user, setcreatePostVisible }) => {
+const CreatePost = ({ user, setcreatePostVisible, profile }) => {
   return (
     <div className="createPost">
       <div className="createPost_header">
@@ -23,10 +23,17 @@ const CreatePost = ({ user, setcreatePostVisible }) => {
           <Photo color="#4bbf67" />
           Photo/Video
         </div>
-        <div className="createPost_icon hover1">
-          <Feeling color="#f3425f" />
-          Feeling/Activity
-        </div>
+        {profile ? (
+          <div className="createPost_icon hover1">
+            <i className="lifeEvent_icon"></i>
+            Life Event
+          </div>
+        ) : (
+          <div className="createPost_icon hover1">
+            <Feeling color="#f3425f" />
+            Feeling/Activity
+          </div>
+        )}
       </div>
     </div>
   );

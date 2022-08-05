@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
 import DateOfBirthSelect from "./DateOfBirthSelect";
@@ -9,6 +9,7 @@ import clientAxios from "../../config/Axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import useClickOutside from "../../helpers/usecClickOutside";
 
 const RegisterForm = ({ setvisible }) => {
   const userInfos = {
@@ -28,6 +29,7 @@ const RegisterForm = ({ setvisible }) => {
   const [error, seterror] = useState("");
   const [success, setsuccess] = useState("");
   const [loading, setloading] = useState(false);
+  const registerRef = useRef(null);
   // navigation
   const navigate = useNavigate();
   // redux functions
@@ -106,9 +108,12 @@ const RegisterForm = ({ setvisible }) => {
       .min(6, "Password must be at least 6 characters")
       .max(40, "Password can't be more than 40 characters"),
   });
+  useClickOutside(registerRef, () => {
+    setvisible(false);
+  });
   return (
     <div className="blur">
-      <div className="register">
+      <div className="register" ref={registerRef}>
         <div className="register_header">
           <i className="exit_icon" onClick={() => setvisible(false)}></i>
           <span>Sign Up</span>
