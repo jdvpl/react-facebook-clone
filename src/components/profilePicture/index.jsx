@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
+import useClickOutside from "../../helpers/usecClickOutside";
 import "./style.css";
 import UpdateProfilePicture from "./UpdateProfilePicture";
-const ProfilePicture = () => {
+const ProfilePicture = ({ setshow, pRef }) => {
   const [image, setimage] = useState("");
   const [error, seterror] = useState("");
   const refFile = useRef(null);
+  const popupRef = useRef(null);
 
   const handleImage = (e) => {
     let file = e.target.files[0];
@@ -29,6 +31,9 @@ const ProfilePicture = () => {
       setimage(event.target.result);
     };
   };
+  useClickOutside(popupRef, () => {
+    setshow(false);
+  });
   return (
     <div className="blur">
       <input
@@ -38,9 +43,9 @@ const ProfilePicture = () => {
         onChange={handleImage}
         accept="image/*"
       />
-      <div className="postBox pictureBox">
+      <div className="postBox pictureBox" ref={popupRef}>
         <div className="box_header">
-          <div className="small_circle">
+          <div className="small_circle" onClick={() => setshow(false)}>
             <i className="exit_icon"></i>
           </div>
           <span>Update profile picture</span>
@@ -69,14 +74,16 @@ const ProfilePicture = () => {
           </div>
         )}
         <div className="old_pictures_wrap"></div>
+        {image && (
+          <UpdateProfilePicture
+            setimage={setimage}
+            image={image}
+            seterror={seterror}
+            setshow={setshow}
+            pRef={pRef}
+          />
+        )}
       </div>
-      {image && (
-        <UpdateProfilePicture
-          setimage={setimage}
-          image={image}
-          seterror={seterror}
-        />
-      )}
     </div>
   );
 };

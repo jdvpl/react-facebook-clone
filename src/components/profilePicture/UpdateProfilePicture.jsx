@@ -1,17 +1,23 @@
+import Cookies from "js-cookie";
 import React, { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { PulseLoader } from "react-spinners";
 import { createPost } from "../../functions/post";
 import { uploadImages } from "../../functions/UploadImages";
 import { updateProfilePictureUser } from "../../functions/user";
 import getCroppedImg from "../../helpers/getCroppedImg";
 
-const UpdateProfilePicture = ({ setimage, image, seterror }) => {
+const UpdateProfilePicture = ({ setimage, image, seterror, setshow, pRef }) => {
+  const dispatch = useDispatch();
   const [description, setdescription] = useState("");
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [loading, setloading] = useState(false);
+
   const [croppedAreaPixels, setcroppedAreaPixels] = useState(null);
   const { user } = useSelector((state) => ({ ...state }));
+
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setcroppedAreaPixels(croppedAreaPixels);
   }, []);
@@ -44,6 +50,7 @@ const UpdateProfilePicture = ({ setimage, image, seterror }) => {
 
   const updateProfilePicture = async () => {
     try {
+      setloading(true);
       let img = await getCroppedImage();
       let blob = await fetch(img).then((b) => b.blob());
       const path = `${user.username}/profile_pictures`;
@@ -66,14 +73,27 @@ const UpdateProfilePicture = ({ setimage, image, seterror }) => {
           "textBlack"
         );
         if (dta.ok) {
+          pRef.current.style.backgroundImage = `url(${res.data[0].url})`;
+          Cookies.set(
+            "user",
+            JSON.stringify({
+              ...user,
+              picture: res.data[0].url,
+            })
+          );
+          dispatch({ type: "UPDATEPICTURE", payload: res.data[0].url });
+          setloading(false);
+          setshow(false);
         } else {
-          console.log(dta.error);
+          setloading(false);
           seterror(dta.error);
         }
       } else {
+        setloading(false);
         seterror(updated_picture.error);
       }
     } catch (e) {
+      setloading(false);
       const error = e.response.data.errors
         ? e.response.data.errors[0].msg
         : e.response.data.msg;
@@ -142,9 +162,15 @@ const UpdateProfilePicture = ({ setimage, image, seterror }) => {
         Your profile picture is public
       </div>
       <div className="update_submit_wrap">
-        <div className="blue_link">Cancel</div>
-        <button className="blue_btn" onClick={() => updateProfilePicture()}>
-          Save
+        <div className="blue_link" onClick={() => setimage("")}>
+          Cancel
+        </div>
+        <button
+          className="blue_btn"
+          disabled={loading}
+          onClick={() => updateProfilePicture()}
+        >
+          {loading ? <PulseLoader color="#fff" size={5} /> : "Save"}
         </button>
       </div>
     </div>

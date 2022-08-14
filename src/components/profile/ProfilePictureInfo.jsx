@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ProfilePicture from "../profilePicture";
 
 const ProfilePictureInfo = ({ profile, visitor }) => {
   const [show, setshow] = useState(false);
+  const pRef = useRef(null);
   return (
     <div className="profile_img_wrap">
-      {show && <ProfilePicture />}
+      {show && <ProfilePicture setshow={setshow} pRef={pRef} />}
       <div className="profile_w_left">
         <div className="profile_w_img">
           <div
             className="profile_w_bg"
+            ref={pRef}
             style={{
               backgroundSize: "cover",
               backgroundImage: `url(${profile.picture})`,
             }}
           ></div>
           {!visitor && (
-            <div className="profile_circle hover1">
+            <div
+              className="profile_circle hover1"
+              onClick={() => setshow(true)}
+            >
               <i className="camera_filled_icon"></i>
             </div>
           )}
