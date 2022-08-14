@@ -70,7 +70,13 @@ const ProfilePicture = () => {
         )}
         <div className="old_pictures_wrap"></div>
       </div>
-      {image && <UpdateProfilePicture setimage={setimage} image={image} />}
+      {image && (
+        <UpdateProfilePicture
+          setimage={setimage}
+          image={image}
+          seterror={seterror}
+        />
+      )}
     </div>
   );
 };

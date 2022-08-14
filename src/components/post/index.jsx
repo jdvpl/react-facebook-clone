@@ -27,7 +27,7 @@ const Post = ({ post, user, profile }) => {
             <div className="post_profile_name">
               {post.user.first_name} {post.user.last_name}
               <div className="updated_p">
-                {post.type == "profilePicture" &&
+                {post.type == "ProfilePicture" &&
                   `updated ${
                     post.user.gender == "male" ? "his" : "her"
                   } profile picture`}

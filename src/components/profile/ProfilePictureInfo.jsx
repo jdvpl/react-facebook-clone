@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ProfilePicture from "../profilePicture";
 
 const ProfilePictureInfo = ({ profile, visitor }) => {
-  const [show, setshow] = useState(true);
+  const [show, setshow] = useState(false);
   return (
     <div className="profile_img_wrap">
       {show && <ProfilePicture />}
