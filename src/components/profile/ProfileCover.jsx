@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import { useRef, useState } from "react";
 import Cropper from "react-easy-crop";
+import { useSelector } from "react-redux";
+import { PulseLoader } from "react-spinners";
+import { createPost } from "../../functions/post";
+import { uploadImages } from "../../functions/UploadImages";
+import { updateCoverPictureUser } from "../../functions/user";
 import getCroppedImg from "../../helpers/getCroppedImg";
 import useClickOutside from "../../helpers/usecClickOutside";
 
@@ -13,10 +18,14 @@ const ProfileCover = ({ cover, visitor }) => {
   const [zoom, setZoom] = useState(1);
   const [width, setwidth] = useState();
   const [croppedAreaPixels, setcroppedAreaPixels] = useState(null);
+  const [loading, setloading] = useState(false);
 
   const coverRef = useRef(null);
   const inputRef = useRef(null);
   const cropRef = useRef(null);
+  const coverImgRef = useRef(null);
+
+  const { user } = useSelector((state) => ({ ...state }));
   useClickOutside(coverRef, () => {
     setshowCoverMenu(false);
   });
@@ -68,6 +77,55 @@ const ProfileCover = ({ cover, visitor }) => {
   useEffect(() => {
     setwidth(cropRef.current.clientWidth);
   }, [window.innerWidth]);
+
+  const updateCoverPicture = async () => {
+    try {
+      setloading(true);
+      let img = await getCroppedImage();
+      let blob = await fetch(img).then((b) => b.blob());
+      const path = `${user.username}/cover_pictures`;
+      let formData = new FormData();
+      formData.append("file", blob);
+      formData.append("path", path);
+      const res = await uploadImages(formData, path, user.token);
+      const updated_picture = await updateCoverPictureUser(
+        res.data[0].url,
+        user.token
+      );
+      if (updated_picture.ok) {
+        const dta = await createPost(
+          "cover",
+          null,
+          null,
+          res.data,
+          user.id,
+          user.token,
+          "textBlack"
+        );
+        if (dta.ok) {
+          setcoverPicture("");
+          setloading(false);
+          setTimeout(() => {
+            coverImgRef.current.src = res.data[0].url;
+          }, 1000);
+        } else {
+          setloading(false);
+          seterror(dta.error);
+        }
+      } else {
+        setloading(false);
+        seterror(updated_picture.error);
+      }
+    } catch (e) {
+      console.log(e);
+      setloading(false);
+      const errorD = e.response.data.errors
+        ? e.response.data.errors[0].msg
+        : e.response.data.msg;
+      seterror(errorD);
+    }
+  };
+  console.log(coverImgRef);
   return (
     <div className="profile_cover" ref={cropRef}>
       {coverPicture && (
@@ -77,8 +135,23 @@ const ProfileCover = ({ cover, visitor }) => {
             Your cover photo is public
           </div>
           <div className="save_changes_right">
-            <button className="blue_btn opacity_btn">Cancel</button>
-            <button className="blue_btn opacity_btn">Save changes</button>
+            <button
+              className="blue_btn opacity_btn"
+              onClick={() => setcoverPicture("")}
+            >
+              Cancel
+            </button>
+            <button
+              className="blue_btn opacity_btn"
+              onClick={() => updateCoverPicture()}
+              disabled={loading}
+            >
+              {loading ? (
+                <PulseLoader color="#fff" size={5} />
+              ) : (
+                " Save changes"
+              )}
+            </button>
           </div>
         </div>
       )}
@@ -112,7 +185,9 @@ const ProfileCover = ({ cover, visitor }) => {
           />
         </div>
       )}
-      {cover && <img src={cover} className="cover" />}
+      {cover && !coverPicture && (
+        <img src={cover} className="cover" ref={coverImgRef} />
+      )}
       {!visitor && (
         <div className="update_cover_wrapper" ref={coverRef}>
           <div
