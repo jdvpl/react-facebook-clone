@@ -19,6 +19,7 @@ import "./style.css";
 const Profile = ({ setcreatePostVisible }) => {
   const { username } = useParams();
   const navigate = useNavigate();
+  const [photos, setphotos] = useState({});
   const { user } = useSelector((state) => ({ ...state }));
   let userName = username === undefined ? user.username : username;
 
@@ -43,6 +44,19 @@ const Profile = ({ setcreatePostVisible }) => {
       if (data.ok === false) {
         navigate("/profile");
       } else {
+        try {
+          const info = {
+            path: `${userName}/*`,
+            sort: "desc",
+            max: 30,
+          };
+          const images = await clientAxios.post(
+            `/upload/listImages`,
+            info,
+            tokenHeaders(user.token)
+          );
+          setphotos(images.data);
+        } catch (error) {}
         dispatch({
           type: "PROFILE_SUCCESS",
           payload: data,
@@ -65,7 +79,11 @@ const Profile = ({ setcreatePostVisible }) => {
       <div className="profile_top">
         <div className="profile_container">
           <ProfileCover cover={profile.cover} visitor={visitor} />
-          <ProfilePictureInfo profile={profile} visitor={visitor} />
+          <ProfilePictureInfo
+            profile={profile}
+            visitor={visitor}
+            photos={photos.resources}
+          />
           <ProfileMenu />
         </div>
       </div>
@@ -75,7 +93,7 @@ const Profile = ({ setcreatePostVisible }) => {
             {!visitor && <PeopleYouMayKnow />}
             <div className="profile_grid">
               <div className="profile_left">
-                <Photos userName={userName} user={user} />
+                <Photos userName={userName} user={user} photos={photos} />
                 <Friends friends={profile?.friends} />
                 <div className="relativa_fb_copyright">
                   <Link to="/">Privacy </Link> <span>. </span>

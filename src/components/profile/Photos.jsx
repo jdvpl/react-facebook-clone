@@ -3,45 +3,7 @@ import clientAxios from "../../config/Axios";
 import { tokenHeaders } from "../../config/headers";
 import { photosReducer } from "../../redux/reducers";
 
-const Photos = ({ userName, user }) => {
-  const [{ loading, error, photos }, dispatch] = useReducer(photosReducer, {
-    loading: false,
-    photos: [],
-    error: "",
-  });
-  useEffect(() => {
-    getPhotos();
-  }, [userName]);
-
-  const getPhotos = async () => {
-    try {
-      dispatch({
-        type: "PHOTOS_REQUEST",
-      });
-      const info = {
-        path: `${userName}/*`,
-        sort: "desc",
-        max: 30,
-      };
-      const { data } = await clientAxios.post(
-        `/upload/listImages`,
-        info,
-        tokenHeaders(user.token)
-      );
-      dispatch({
-        type: "PHOTOS_SUCCESS",
-        payload: data,
-      });
-    } catch (e) {
-      const errorData = e.response.data.errors
-        ? e.response.data.errors[0].msg
-        : e.response.data.msg;
-      dispatch({
-        type: "PHOTOS_ERROR",
-        payload: errorData,
-      });
-    }
-  };
+const Photos = ({ userName, user, photos }) => {
   return (
     <div className="profile_card">
       <div className="profile_card_header">

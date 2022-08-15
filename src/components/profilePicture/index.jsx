@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import useClickOutside from "../../helpers/usecClickOutside";
 import "./style.css";
 import UpdateProfilePicture from "./UpdateProfilePicture";
-const ProfilePicture = ({ setshow, pRef }) => {
+const ProfilePicture = ({ setshow, pRef, photos }) => {
   const [image, setimage] = useState("");
   const [error, seterror] = useState("");
   const refFile = useRef(null);
   const popupRef = useRef(null);
-
+  const { user } = useSelector((state) => ({ ...state }));
   const handleImage = (e) => {
     let file = e.target.files[0];
 
@@ -34,6 +35,7 @@ const ProfilePicture = ({ setshow, pRef }) => {
   useClickOutside(popupRef, () => {
     setshow(false);
   });
+  console.log(photos);
   return (
     <div className="blur">
       <input
@@ -73,7 +75,40 @@ const ProfilePicture = ({ setshow, pRef }) => {
             </button>
           </div>
         )}
-        <div className="old_pictures_wrap"></div>
+        <div className="old_pictures_wrap scrollbar">
+          <h4>Your profile pictures</h4>
+          <div className="old_pictures">
+            {photos
+              .filter(
+                (img) =>
+                  img.folder ===
+                  `facebook-jdvpl/${user.username}/profile_pictures`
+              )
+              .map((photo) => (
+                <img
+                  src={photo.secure_url}
+                  key={photo.public_id}
+                  onClick={() => setimage(photo.secure_url)}
+                />
+              ))}
+          </div>
+          <h4>Other pictures</h4>
+          <div className="old_pictures">
+            {photos
+              .filter(
+                (img) =>
+                  img.folder !==
+                  `facebook-jdvpl/${user.username}/profile_pictures`
+              )
+              .map((photo) => (
+                <img
+                  src={photo.secure_url}
+                  key={photo.public_id}
+                  onClick={() => setimage(photo.secure_url)}
+                />
+              ))}
+          </div>
+        </div>
         {image && (
           <UpdateProfilePicture
             setimage={setimage}
