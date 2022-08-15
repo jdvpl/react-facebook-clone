@@ -30,6 +30,7 @@ const Profile = ({ setcreatePostVisible }) => {
   });
   useEffect(() => {
     getProfile();
+    document.title = `${userName} profile`;
   }, [userName]);
 
   const getProfile = async () => {
