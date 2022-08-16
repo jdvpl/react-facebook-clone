@@ -9,8 +9,9 @@ import { uploadImages } from "../../functions/UploadImages";
 import { updateCoverPictureUser } from "../../functions/user";
 import getCroppedImg from "../../helpers/getCroppedImg";
 import useClickOutside from "../../helpers/usecClickOutside";
+import OldCovers from "./OldCovers";
 
-const ProfileCover = ({ cover, visitor }) => {
+const ProfileCover = ({ cover, visitor, photos }) => {
   const [showCoverMenu, setshowCoverMenu] = useState(false);
   const [coverPicture, setcoverPicture] = useState("");
   const [error, seterror] = useState("");
@@ -19,6 +20,7 @@ const ProfileCover = ({ cover, visitor }) => {
   const [width, setwidth] = useState();
   const [croppedAreaPixels, setcroppedAreaPixels] = useState(null);
   const [loading, setloading] = useState(false);
+  const [showOldCoverPictures, setshowOldCoverPictures] = useState(false);
 
   const coverRef = useRef(null);
   const inputRef = useRef(null);
@@ -125,7 +127,6 @@ const ProfileCover = ({ cover, visitor }) => {
       seterror(errorD);
     }
   };
-  console.log(coverImgRef);
   return (
     <div className="profile_cover" ref={cropRef}>
       {coverPicture && (
@@ -199,7 +200,10 @@ const ProfileCover = ({ cover, visitor }) => {
           </div>
           {showCoverMenu && (
             <div className="open_cover_menu">
-              <div className="open_cover_menu_item hover1">
+              <div
+                className="open_cover_menu_item hover1"
+                onClick={() => setshowOldCoverPictures(true)}
+              >
                 <i className="photo_icon"></i>
                 Select Photo
               </div>
@@ -213,6 +217,13 @@ const ProfileCover = ({ cover, visitor }) => {
             </div>
           )}
         </div>
+      )}
+      {showOldCoverPictures && (
+        <OldCovers
+          setshowOldCoverPictures={setshowOldCoverPictures}
+          photos={photos}
+          setcoverPicture={setcoverPicture}
+        />
       )}
     </div>
   );

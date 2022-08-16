@@ -79,7 +79,11 @@ const Profile = ({ setcreatePostVisible }) => {
       <Header page="profile" />
       <div className="profile_top">
         <div className="profile_container">
-          <ProfileCover cover={profile.cover} visitor={visitor} />
+          <ProfileCover
+            cover={profile.cover}
+            visitor={visitor}
+            photos={photos.resources}
+          />
           <ProfilePictureInfo
             profile={profile}
             visitor={visitor}
