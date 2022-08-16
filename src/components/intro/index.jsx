@@ -1,9 +1,12 @@
 import { useState } from "react";
+import Bio from "./Bio";
 import "./style.css";
 
-const Intro = ({ details }) => {
+const Intro = ({ details, visitor }) => {
   const initial = {
-    bio: details?.bio ? details?.bio : "",
+    bio: details?.bio
+      ? details?.bio
+      : "Software dreamer, I really like to develop my react skills.",
     otherName: details?.otherName ? details?.otherName : "",
     job: details?.job ? details?.job : "",
     workplace: details?.workplace ? details?.workplace : "",
@@ -15,10 +18,38 @@ const Intro = ({ details }) => {
     instagram: details?.instagram ? details?.instagram : "juanda5542",
   };
   const [infos, setinfos] = useState(initial);
-
+  const [showBioPopup, setshowBioPopup] = useState(false);
+  const [maxCharacters, setmaxCharacters] = useState(
+    infos?.bio ? 100 - infos?.bio.length : 100
+  );
+  const handleBioChange = (e) => {
+    setinfos({ ...infos, bio: e.target.value });
+    setmaxCharacters(100 - e.target.value.length);
+  };
   return (
     <div className="profile_card">
       <div className="profile_card_header">Intro</div>
+      {infos.bio && !showBioPopup && (
+        <div className="info_col">
+          <span className="info_text">{infos.bio}</span>
+          {!visitor && (
+            <button
+              className="gray_btn hover1"
+              onClick={() => setshowBioPopup(true)}
+            >
+              Edit Bio
+            </button>
+          )}
+        </div>
+      )}
+      {showBioPopup && (
+        <Bio
+          infos={infos}
+          handleBioChange={handleBioChange}
+          setshowBioPopup={setshowBioPopup}
+          maxCharacters={maxCharacters}
+        />
+      )}
       {infos.job && infos.workplace ? (
         <div className="info_profile">
           <img src="/assets/icons/job.png" alt="" />
@@ -79,6 +110,15 @@ const Intro = ({ details }) => {
             {infos.instagram}
           </a>
         </div>
+      )}
+      {!visitor && (
+        <button className="gray_btn hover1 w100">Edit Details</button>
+      )}
+      {!visitor && (
+        <button className="gray_btn hover1 w100">Add Hobbies</button>
+      )}
+      {!visitor && (
+        <button className="gray_btn hover1 w100">Add Features</button>
       )}
     </div>
   );
