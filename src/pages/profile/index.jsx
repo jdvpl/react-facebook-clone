@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CreatePost from "../../components/createPost";
 import Header from "../../components/header";
+import Intro from "../../components/intro";
 import Post from "../../components/post";
 import Friends from "../../components/profile/Friends";
 import GridPosts from "../../components/profile/GridPosts";
@@ -98,6 +99,7 @@ const Profile = ({ setcreatePostVisible }) => {
             {!visitor && <PeopleYouMayKnow />}
             <div className="profile_grid">
               <div className="profile_left">
+                <Intro details={profile?.details} />
                 <Photos userName={userName} user={user} photos={photos} />
                 <Friends friends={profile?.friends} />
                 <div className="relativa_fb_copyright">
