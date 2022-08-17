@@ -4,12 +4,14 @@ const Bio = ({
   setshowBioPopup,
   maxCharacters,
   updateDetails,
+  placeholder,
+  name,
 }) => {
   return (
     <div className="add_bio_wrap">
       <textarea
-        placeholder="Add Bio"
-        name="bio"
+        placeholder={placeholder}
+        name={name}
         value={infos?.bio}
         maxLength="100"
         className="textarea_blue details_input"

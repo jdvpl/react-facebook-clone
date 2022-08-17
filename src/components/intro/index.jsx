@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import clientAxios from "../../config/Axios";
 import { tokenHeaders } from "../../config/headers";
 import Bio from "./Bio";
+import EditDetails from "./EditDetails";
 import "./style.css";
 
 const Intro = ({ detailsData, visitor }) => {
@@ -28,6 +29,7 @@ const Intro = ({ detailsData, visitor }) => {
   const [maxCharacters, setmaxCharacters] = useState(
     infos?.bio ? 100 - infos?.bio.length : 100
   );
+  const [showVisiblePopupDetails, setshowVisiblePopupDetails] = useState(1);
   const handleBioChange = (e) => {
     setinfos({ ...infos, bio: e.target.value });
     setmaxCharacters(100 - e.target.value.length);
@@ -48,6 +50,11 @@ const Intro = ({ detailsData, visitor }) => {
         : e.response.data.msg;
     }
   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setinfos({ ...infos, [name]: value });
+    setmaxCharacters(100 - e.target.value.length);
+  };
   return (
     <div className="profile_card">
       <div className="profile_card_header">Intro</div>
@@ -64,13 +71,27 @@ const Intro = ({ detailsData, visitor }) => {
           )}
         </div>
       )}
+      {!details?.bio && !showBioPopup && (
+        <div className="info_col">
+          {!visitor && (
+            <button
+              className="gray_btn hover1"
+              onClick={() => setshowBioPopup(true)}
+            >
+              Add Bio
+            </button>
+          )}
+        </div>
+      )}
       {showBioPopup && (
         <Bio
           infos={infos}
-          handleBioChange={handleBioChange}
+          handleBioChange={handleChange}
           setshowBioPopup={setshowBioPopup}
           maxCharacters={maxCharacters}
           updateDetails={updateDetails}
+          placeholder="Add Bio"
+          name="bio"
         />
       )}
       {details?.job && details?.workplace ? (
@@ -137,9 +158,16 @@ const Intro = ({ detailsData, visitor }) => {
       {!visitor && (
         <button className="gray_btn hover1 w100">Edit Details</button>
       )}
+      {showVisiblePopupDetails && !visitor && (
+        <EditDetails
+          details={details}
+          setshowVisiblePopupDetails={setshowVisiblePopupDetails}
+        />
+      )}
       {!visitor && (
         <button className="gray_btn hover1 w100">Add Hobbies</button>
       )}
+
       {!visitor && (
         <button className="gray_btn hover1 w100">Add Features</button>
       )}
