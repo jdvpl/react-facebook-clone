@@ -1,4 +1,10 @@
-const Bio = ({ infos, handleBioChange, setshowBioPopup, maxCharacters }) => {
+const Bio = ({
+  infos,
+  handleBioChange,
+  setshowBioPopup,
+  maxCharacters,
+  updateDetails,
+}) => {
   return (
     <div className="add_bio_wrap">
       <textarea
@@ -18,7 +24,9 @@ const Bio = ({ infos, handleBioChange, setshowBioPopup, maxCharacters }) => {
           <button className="gray_btn" onClick={() => setshowBioPopup(false)}>
             Cancel
           </button>
-          <button className="blue_btn">Save</button>
+          <button className="blue_btn" onClick={() => updateDetails()}>
+            Save
+          </button>
         </div>
       </div>
     </div>

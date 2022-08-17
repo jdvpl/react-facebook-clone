@@ -98,7 +98,7 @@ const Profile = ({ setcreatePostVisible }) => {
             {!visitor && <PeopleYouMayKnow />}
             <div className="profile_grid">
               <div className="profile_left">
-                <Intro details={profile?.details} visitor={visitor} />
+                <Intro detailsData={profile?.details} visitor={visitor} />
                 <Photos userName={userName} user={user} photos={photos} />
                 <Friends friends={profile?.friends} />
                 <div className="relativa_fb_copyright">
