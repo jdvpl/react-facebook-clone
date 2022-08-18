@@ -1,6 +1,13 @@
 import Detail from "./Detail";
 
-const EditDetails = ({ details, setshowVisiblePopupDetails }) => {
+const EditDetails = ({
+  details,
+  setshowVisiblePopupDetails,
+  handleChange,
+  maxCharacters,
+  updateDetails,
+  infos,
+}) => {
   return (
     <div className="blur">
       <div className="postBox infosBox">
@@ -24,6 +31,11 @@ const EditDetails = ({ details, setshowVisiblePopupDetails }) => {
             img="studies"
             placeholder="Add other Name"
             name="otherName"
+            handleChange={handleChange}
+            maxCharacters={maxCharacters}
+            updateDetails={updateDetails}
+            infos={infos}
+            text="other Name"
           />
         </div>
       </div>

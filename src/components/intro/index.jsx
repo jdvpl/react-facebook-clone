@@ -11,6 +11,7 @@ const Intro = ({ detailsData, visitor }) => {
   const [details, setdetails] = useState(detailsData);
   useEffect(() => {
     setdetails(detailsData);
+    setinfos(detailsData);
   }, [detailsData]);
   const initial = {
     bio: details?.bio ? details?.bio : "",
@@ -30,10 +31,7 @@ const Intro = ({ detailsData, visitor }) => {
     infos?.bio ? 100 - infos?.bio.length : 100
   );
   const [showVisiblePopupDetails, setshowVisiblePopupDetails] = useState(1);
-  const handleBioChange = (e) => {
-    setinfos({ ...infos, bio: e.target.value });
-    setmaxCharacters(100 - e.target.value.length);
-  };
+
   const updateDetails = async () => {
     try {
       const { data } = await clientAxios.put(
@@ -86,7 +84,7 @@ const Intro = ({ detailsData, visitor }) => {
       {showBioPopup && (
         <Bio
           infos={infos}
-          handleBioChange={handleChange}
+          handleChange={handleChange}
           setshowBioPopup={setshowBioPopup}
           maxCharacters={maxCharacters}
           updateDetails={updateDetails}
@@ -162,6 +160,10 @@ const Intro = ({ detailsData, visitor }) => {
         <EditDetails
           details={details}
           setshowVisiblePopupDetails={setshowVisiblePopupDetails}
+          handleChange={handleChange}
+          maxCharacters={maxCharacters}
+          updateDetails={updateDetails}
+          infos={infos}
         />
       )}
       {!visitor && (
